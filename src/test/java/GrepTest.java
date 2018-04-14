@@ -21,34 +21,49 @@ public class GrepTest {
 
     @Test
     public void test() {
-        Grep.main(new String[]{"Hello","src/test/resources/sample.txt"});
-        Assert.assertArrayEquals(new String[] {"1-Hello"},outContent.toString().split("\r?\n"));
-
+        Grep.main(new String[]{"Hello", "src/test/resources/sample.txt"});
+        Assert.assertArrayEquals(new String[]{"1-Hello"}, outContent.toString().split("\r?\n"));
     }
+
     @Test
     public void testRegexInvert() {
-        Grep.main(new String[]{"-r","-v", "[a-z]", "src/test/resources/sample.txt"});
-        Assert.assertArrayEquals(new String[] {"1-Hello", "2-Eee", "3-hello", "4-hEllO"},outContent.toString().split("\r?\n"));
-
+        Grep.main(new String[]{"-r", "-v", "[a-z]+", "src/test/resources/sample.txt"});
+        Assert.assertArrayEquals(new String[]{""}, outContent.toString().split("\r?\n"));
     }
+
     @Test
     public void testRegexIgnorInvert() {
-        Grep.main(new String[]{"-r","-i","-v", "[A-Z]", "src/test/resources/sample.txt"});
-        Assert.assertArrayEquals(new String[] {"1-Hello", "2-Eee", "3-hello", "4-hEllO"},outContent.toString().split("\r?\n"));
-
+        Grep.main(new String[]{"-r", "-i", "-v", "[A-Z]+", "src/test/resources/sample.txt"});
+        Assert.assertArrayEquals(new String[]{""}, outContent.toString().split("\r?\n"));
     }
+
+    @Test
+    public void testRegexIgnor() {
+        Grep.main(new String[]{"-r", "-i", "[A-Z]+", "src/test/resources/sample.txt"});
+        Assert.assertArrayEquals(new String[]{"1-Hello", "2-Eee", "3-hello", "4-hEllO"}, outContent.toString().split("\r?\n"));
+    }
+
+    @Test
+    public void testRegex() {
+        Grep.main(new String[]{"-r", "\\w", "src/test/resources/sample.txt"});
+        Assert.assertArrayEquals(new String[]{"1-Hello", "2-Eee", "3-hello", "4-hEllO"}, outContent.toString().split("\r?\n"));
+    }
+
     @Test
     public void testSimpleInvert() {
         Grep.main(new String[]{"-v", "Hello", "src/test/resources/sample.txt"});
-        Assert.assertArrayEquals(new String[] {"2-Eee", "3-hello", "4-hEllO"},outContent.toString().split("\r?\n"));
-
-    } @Test
-    public void testSimpleIgnorInvert() {
-        Grep.main(new String[]{"-i","-v", "HELLO", "src/test/resources/sample.txt"});
-        Assert.assertArrayEquals(new String[] {"2-Eee"},outContent.toString().split("\r?\n"));
-
+        Assert.assertArrayEquals(new String[]{"2-Eee", "3-hello", "4-hEllO"}, outContent.toString().split("\r?\n"));
     }
 
+    @Test
+    public void testSimpleIgnorInvert() {
+        Grep.main(new String[]{"-i", "-v", "HELLO", "src/test/resources/sample.txt"});
+        Assert.assertArrayEquals(new String[]{"2-Eee"}, outContent.toString().split("\r?\n"));
+    }
 
-
+    @Test
+    public void testSimpleIgnor() {
+        Grep.main(new String[]{"-i", "HELLO", "src/test/resources/sample.txt"});
+        Assert.assertArrayEquals(new String[]{"1-Hello", "3-hello", "4-hEllO"}, outContent.toString().split("\r?\n"));
+    }
 }
