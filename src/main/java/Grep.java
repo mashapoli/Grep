@@ -34,10 +34,10 @@ public class Grep {
                      new BufferedReader(new FileReader(file))) {
             while ((line = br.readLine()) != null) {
                 boolean match = false;
-                if(!regex) {
-                    match = SimpleMatcher.match(word,line,ignor);
-                } else if (regex ) {
-                   match = RegexMatcher.match(word,line,ignor);
+                if (!regex) {
+                    match = SimpleMatcher.match(word, line, ignor);
+                } else if (regex) {
+                    match = RegexMatcher.match(word, line, ignor);
                 }
 
                 if (invert) {
