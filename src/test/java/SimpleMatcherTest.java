@@ -7,8 +7,11 @@ public class SimpleMatcherTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(true, SimpleMatcher.match("Hello", "Hello, world!", false));
-        Assert.assertEquals(true, SimpleMatcher.match("hello", "Hello, world!", true));
-        Assert.assertEquals(false, SimpleMatcher.match("Hello!", "Hello, world!", true));
+        SimpleMatcher simpleMatcher = new SimpleMatcher("Hello", false);
+        Assert.assertEquals(true, simpleMatcher.match("Hello, world!"));
+        simpleMatcher = new SimpleMatcher("hello", true);
+        Assert.assertEquals(true, simpleMatcher.match("Hello, world!"));
+         simpleMatcher = new SimpleMatcher("Hello!", true);
+        Assert.assertEquals(false, simpleMatcher.match("Hello, world!"));
     }
 }

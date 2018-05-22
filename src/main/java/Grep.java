@@ -32,12 +32,14 @@ public class Grep {
         String line;
         try (BufferedReader br =
                      new BufferedReader(new FileReader(file))) {
+            SimpleMatcher simpleMatcher = new SimpleMatcher(word, ignor);
+            RegexMatcher regexMatcher = new RegexMatcher(word, ignor);
             while ((line = br.readLine()) != null) {
                 boolean match = false;
                 if (!regex) {
-                    match = SimpleMatcher.match(word, line, ignor);
+                    match = simpleMatcher.match(line);
                 } else if (regex) {
-                    match = RegexMatcher.match(word, line, ignor);
+                    match = regexMatcher.match(line);
                 }
 
                 if (invert) {
